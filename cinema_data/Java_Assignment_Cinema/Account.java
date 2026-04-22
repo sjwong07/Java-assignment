@@ -26,6 +26,7 @@ class Account extends User {
     public void initializeData() {
         if (users.isEmpty()) {
             users.add(new User("admin", "Admin@123", 1));
+            vs.adminMenu(); 
             dm.saveData(); 
         }
     }
@@ -56,14 +57,14 @@ class Account extends User {
 
     public void handleRegister() {
         // Role selection logic only executes after a valid password is provided
-        System.out.println("Select Role (1. Admin / 2. Customer):");
+        System.out.println("Select Role (1. Staff / 2. Member):");
         int role = scan.nextInt();
         scan.nextLine();
         String uname;
         boolean exists;
         boolean ans = true;
 do {
-    System.out.println("\n--- REGISTER NEW STAFF/ADMIN ---");
+    System.out.println("\n--- REGISTER NEW STAFF ---");
     System.out.print("Enter New Username: ");
     uname = scan.nextLine();
     exists = false;
@@ -113,11 +114,11 @@ do {
         System.out.println("Success: " + role + " account '" + uname + "' created.");
         
         if(role == 1){
-            vs.adminMenu(); 
-            vs.movieMenu();
+             
+            vs.movieMenu();//staff
         }
         else if(role == 2){
-            
+            return;
         }
     }
     

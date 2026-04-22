@@ -5,11 +5,11 @@ import java.util.Scanner;
 public class ticketsales {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
+        Scanner scan = new Scanner(System.in);
+        
         // Create customer
         System.out.print("Enter your name: ");
-        String name = scanner.nextLine();
+        String name = scan.nextLine();
         Customer customer = new Customer(name);
 
         // Create sample events
@@ -24,37 +24,33 @@ public class ticketsales {
 
         do {
             System.out.println("\n=== Ticket System ===");
-            System.out.println("1. View Event");
-            System.out.println("2. Buy Ticket");
-            System.out.println("3. View My Tickets");
-            System.out.println("4. Make Payment");
-            System.out.println("5. Exit");
+            System.out.println("1. Buy Ticket");
+            System.out.println("2. View My Tickets");
+            System.out.println("3. Make Payment");
+            System.out.println("4. Exit");
             System.out.print("Enter choice: ");
 
-            choice = scanner.nextInt();
-            scanner.nextLine(); // clear buffer
+            choice = scan.nextInt();
+            scan.nextLine(); // clear buffer
 
             switch (choice) {
 
                 case 1:
-                    for (int i = 0; i < events.size(); i++) {
+                      for (int i = 0; i < events.size(); i++) {
                         System.out.println(
                             (i + 1) + ". " + events.get(i).getName() +
                             " (Available: " + events.get(i).getAvailableCount() + ")" +
                             " - Price: RM" + events.get(i).getPrice()
                         );
                     }
-                    break;
-
-                case 2:
                     System.out.print("Select event: ");
-                    int eventIndex = scanner.nextInt() - 1;
-                    scanner.nextLine(); 
+                    int eventIndex = scan.nextInt() - 1;
+                    scan.nextLine(); 
 
                     if (eventIndex >= 0 && eventIndex < events.size()) {
                         System.out.print("How many tickets? ");
-                        int quantity = scanner.nextInt();
-                        scanner.nextLine();
+                        int quantity = scan.nextInt();
+                        scan.nextLine();
                         
                         totalPrice = events.get(eventIndex).getPrice() * quantity;
                         System.out.println("Total price: RM" + totalPrice);
@@ -65,22 +61,23 @@ public class ticketsales {
                     }
                     break;
 
-                case 3:
+                case 2:
                     customer.viewTickets();
                     break;
                     
-                case 4:
+                case 3:
                     if (totalPrice > 0) {
                         System.out.println("\n=== Payment Section ===");
                         System.out.println("Total amount to pay: RM" + totalPrice);
                         
                         // Create Paymentmethod object
-                        Paymentmethod payment = new Paymentmethod("", balance, amount, 0, 0);
+                        Paymentmethod payment = new Paymentmethod(balance, amount, 
+                       "","",0,0);
                         
                         // Display payment options
                         payment.displayPaymentOptions();
-                        int paymentChoice = scanner.nextInt();
-                        scanner.nextLine();
+                        int paymentChoice = scan.nextInt();
+                        scan.nextLine();
                         
                         switch (paymentChoice) {
                             case 1:
@@ -100,16 +97,16 @@ public class ticketsales {
                     }
                     break;
 
-                case 5:
+                case 4:
                     System.out.println("Exiting system...");
                     break;
 
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("Invalid choice.Please select 1-4!");
             }
 
         } while (choice != 5);
 
-        scanner.close();
+        scan.close();
     }
 }

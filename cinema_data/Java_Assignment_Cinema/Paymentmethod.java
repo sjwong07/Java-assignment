@@ -1,17 +1,26 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class Paymentmethod extends Payment {
     Scanner scan = new Scanner(System.in);
-    private int phoneNumber;
-    private int pin;
+    static ArrayList<String> bankUsers = new ArrayList<>();
+    static ArrayList<String> bankPasswords = new ArrayList<>();
+    private String username;
+    private String password;
     private String ewalletChoice;
     private String bankName;
     private String cardNumber;
     private int cvv;
     private String expiryDate;
+    private int phoneNumber;
+    private int pin;
 
-    public Paymentmethod(String accPassword, double balance, double amount, int phoneNumber, int pin) {
+    public Paymentmethod(double balance, double amount, 
+        String username, String password,int phoneNumber,int pin) {
         super(balance, amount);
+        
+        this.username = username;
+        this.password = password;
         this.phoneNumber = phoneNumber;
         this.pin = pin;
     }
@@ -25,20 +34,6 @@ class Paymentmethod extends Payment {
         System.out.print("Please select your payment method: ");
     }
 
-    public void processPayment(double totalPrice, double balance, double amount, int paymentChoice) {
-        double totalTopUpAmount = 0.0;
-
-        while (this.balance < totalPrice) {
-            System.out.println("Your balance is insufficient! Please top up");
-            double topUpAmount = topupTng(balance, paymentChoice);
-            totalTopUpAmount = topUpAmount;
-        }
-
-        this.balance -= totalPrice;
-        System.out.println("Payment Processing.....");
-        System.out.println("Payment Successed!");
-        System.out.println("Your current balance is: " + totalTopUpAmount + "-" + totalPrice + "=" + this.balance);
-    }
 
     public void handleEwalletPayment(double totalPrice, double balance, double amount) {
         System.out.println("\n----- E-WALLET OPTIONS -----");
@@ -67,26 +62,37 @@ class Paymentmethod extends Payment {
     }
 
     public void handleOnlineBanking(double totalPrice, double balance, double amount) {
+        
         System.out.println("\n----- ONLINE BANKING OPTIONS -----");
         System.out.println("Available banks: Maybank, CIMB, Public Bank, RHB, Hong Leong");
         System.out.print("Enter your bank name: ");
         bankName = scan.nextLine();
 
         try {
-            System.out.println("Please enter your phone number: ");
-            phoneNumber = scan.nextInt();
-            scan.nextLine();
-            System.out.println("Please enter your PIN: ");
-            pin = scan.nextInt();
-            scan.nextLine();
+            System.out.print("Please enter your username for "+ bankName +": ");
+            username = scan.nextLine();
+            System.out.print("Please enter your Password: ");
+            password = scan.nextLine();
 
-            if (phoneNumber > 12 && pin < 6) {
-                System.out.println("Invalid input.");
-            } else {
-                System.out.println("Verifying with " + bankName + "...");
-                System.out.println("Status: Online Banking Payment Successful!");
-                processPayment(totalPrice, balance, amount, 2);
+          boolean exist = false;
+
+            for (int i = 0; i < bankUsers.size(); i++) {
+                if (bankUsers.get(i).equals(username) && 
+                    bankPasswords.get(i).equals(password)) {
+                    exist = true;
+                    break;
+                }
             }
+                if (!exist) {
+            bankUsers.add(username);
+            bankPasswords.add(password);
+
+            System.out.println("Verifying with " + bankName + "...");
+            System.out.println("Status: Online Banking Payment Successful!");
+        } else {
+            System.out.println("This bank account already exists!");
+        }
+
         } catch (Exception e) {
             System.out.println("Invalid input for online banking.");
             scan.nextLine();
@@ -112,7 +118,7 @@ class Paymentmethod extends Payment {
                 System.out.println("Card Type: " + (cardNumber.startsWith("4") ? "VISA" : 
                                                       cardNumber.startsWith("5") ? "MasterCard" : "Unknown"));
                 System.out.println("Status: Card Payment Successful!");
-                processPayment(totalPrice, balance, amount, 3);
+               
             } else {
                 System.out.println("Invalid card details!");
             }

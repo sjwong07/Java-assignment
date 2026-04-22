@@ -74,6 +74,7 @@ public class Cinema {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
+        
     }
 
     public static void main(String[] args) {
@@ -82,13 +83,18 @@ public class Cinema {
         ViewSchedule vs = new ViewSchedule(acc);
         Scanner scan = new Scanner(System.in);
         
-        boolean running = true; // Main loop control variable
+        boolean running = true; 
         
         while (running) { // Main program loop
-            System.out.println("=================================");
-            System.out.println( "        AGV CINEMA SYSTEM        " );
-             System.out.println("=================================");
-            System.out.println("Hello, Please Choose an Option: " + "\n1. Register/Login" + 
+            System.out.println("------------------------------");
+        System.out.println("   █████╗  ██████╗ ██╗   ██╗");
+        System.out.println("  ██╔══██╗██╔════╝ ██║   ██║");
+        System.out.println("  ███████║██║  ███╗██║   ██║");
+        System.out.println("  ██╔══██║██║   ██║╚██╗ ██╔╝");
+        System.out.println("  ██║  ██║╚██████╔╝ ╚████╔╝ ");
+        System.out.println("  ╚═╝  ╚═╝ ╚═════╝   ╚═══╝  ");
+             System.out.println("------------------------------");
+            System.out.println("Hello, Welcome to AGV CINEMA SYSTEM,please Choose an Option: " + "\n1. Register/Login" + 
             "\n2. Buy Ticket" +"\n3. Buy Concession"+ "\n4. Check Movie Schedule"+"\n5. Exit" +"\n6.Logout");
             System.out.print("Your choice: ");
             
@@ -161,7 +167,9 @@ public class Cinema {
                 double amount = 0.0;
                 int phoneNumber = 0;
                 int pin = 0;
+                
                 int bankName = 0;
+                String password = "";
                 String username = "";
 
     try{
@@ -194,7 +202,8 @@ displayItem(c.concessionItem, membership);
                             comboType,ComboSize,membership,newSize,quantity,newItem);
         concessionPriceStandard standard = new concessionPriceStandard(popcornType,drinkType,comboType,
             ComboSize,membership,newSize,quantity,newItem);
-        Paymentmethod pm = new Paymentmethod(accPassword,balance,amount,phoneNumber,pin);
+        Paymentmethod pm = new Paymentmethod(balance, amount,
+           username, password,phoneNumber,pin);
         //switch membership for display item
        
             switch (membership) {
@@ -226,14 +235,17 @@ displayItem(c.concessionItem, membership);
                         double totalPrice = vip.calculatePriceVip();
                         if(paymentChoose == 1){
                         pm.handleEwalletPayment(totalPrice,balance, amount);
+                        break;
                         }
                         else if(paymentChoose == 2){
                         pm.handleOnlineBanking(totalPrice,balance,amount);
+                        break;
                         }
                         else if(paymentChoose == 3){
                         pm.handleCreditDebitCard(totalPrice,balance,amount);
+                        break;
                         }
-                        pm.processPayment(totalPrice,balance,amount,paymentChoice);
+                        
                      input = false;
                      
                     }
@@ -244,16 +256,17 @@ displayItem(c.concessionItem, membership);
                          double totalPrice = standard.calculatePriceStandard();
                          if(paymentChoose == 1){
                         pm.handleEwalletPayment(totalPrice,balance, amount);
+                        break;
                         }
                         else if(paymentChoose == 2){
                         pm.handleOnlineBanking(totalPrice,balance,amount);
+                        break;
                         }
                         else if(paymentChoose == 3){
                         pm.handleCreditDebitCard(totalPrice,balance,amount);
+                        break;
                         }
-                        pm.processPayment(totalPrice,balance,amount,paymentChoice);
                          input = false;
-                        
                     }
                     
                     else{
@@ -265,7 +278,7 @@ displayItem(c.concessionItem, membership);
                             System.out.println("Invalid input,Try again");
                             break;
                             }
-              } 
+                    } 
                          break;
                     
                 case 4:
