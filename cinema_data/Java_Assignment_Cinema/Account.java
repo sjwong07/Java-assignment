@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 class Account extends User {
     DataManager dm = new DataManager();
     ArrayList<User> users;
+    ViewSchedule vs; 
     Scanner scan = new Scanner(System.in); 
 
     // Default constructor for utility use in Cinema.java
@@ -12,8 +13,9 @@ class Account extends User {
         super("temp", "temp", 1);
         dm.loadData();
         this.users = dm.getUsers();
-        initializeData();
         vs = new ViewSchedule(this); 
+        initializeData();
+        
     }
 
     public Account(String user, String pass, int role) {
@@ -26,7 +28,7 @@ class Account extends User {
     public void initializeData() {
         if (users.isEmpty()) {
             users.add(new User("admin", "Admin@123", 1));
-            vs.adminMenu(); 
+            
             dm.saveData(); 
         }
     }
@@ -36,9 +38,12 @@ class Account extends User {
         return Pattern.compile(regex).matcher(pass).matches();
     }
 
-    ViewSchedule vs; 
+    
     
     public boolean handleLogin() {
+        System.out.println("What is your role?: " + "\n1.Admin" + "\n2.Staff" +"\n3.Member");
+        int roleSelection = scan.nextInt();
+        scan.nextLine();
         System.out.print("\nUsername: ");
         String uname = scan.nextLine();
         System.out.print("Password: ");
@@ -47,44 +52,58 @@ class Account extends User {
         for (User u : users) {
             if (u.getUsername().equals(uname) && u.getPassword().equals(pass)) {
                 System.out.println("Welcome, " + uname + " [" + u.getRole() + "]");
-                return true;
+                 vs.setCurrentUser(u);
+
+        if(roleSelection == 1){
+          vs.adminMenu();
+    }
+        else if(roleSelection == 2){
+            vs.movieMenu();
+    }
+    
+        return true;
             }
         }
+       
         System.out.println("Error: Invalid login credentials.");
         
         return false;
     }
 
-    public void handleRegister() {
-        // Role selection logic only executes after a valid password is provided
-        System.out.println("Select Role (1. Staff / 2. Member):");
-        int role = scan.nextInt();
+ 
+
+    public void handleRegister(boolean isAdminCreating) {  
+    int role;
+    
+    if (isAdminCreating) {
+        
+        System.out.println("Select Role (1. Admin / 2. Staff):");
+        role = scan.nextInt();
         scan.nextLine();
-        String uname;
-        boolean exists;
-        boolean ans = true;
-do {
-    System.out.println("\n--- REGISTER NEW STAFF ---");
-    System.out.print("Enter New Username: ");
-    uname = scan.nextLine();
-    exists = false;
+    } else {
+        role = 3;
+    }
+    
+    String uname;
+    boolean exists;
+    
+    do {
+        System.out.println("\n--- REGISTER NEW ACCOUNT ---");
+        System.out.print("Enter New Username: ");
+        uname = scan.nextLine();
+        exists = false;
 
-    for (User u : users) {
-        if (u.getUsername().equalsIgnoreCase(uname)) {
-            exists = true;
-            break;
+        for (User u : users) {
+            if (u.getUsername().equalsIgnoreCase(uname)) {
+                exists = true;
+                break;
+            }
         }
-    }
 
-    if (exists) {
-        System.out.println("Username already exists! Please try again.");
-       ans = true;
-    }
-    else{
-        ans = false;//exit the loop 
-}
-
-} while (ans);
+        if (exists) {
+            System.out.println("Username already exists! Please try again.");
+        }
+    } while (exists);
 
         String pass = "";
         // FIXED: Loop allows user to retry until password requirements are met
@@ -113,13 +132,15 @@ do {
         dm.saveData();
         System.out.println("Success: " + role + " account '" + uname + "' created.");
         
-        if(role == 1){
-             
-            vs.movieMenu();//staff
-        }
-        else if(role == 2){
-            return;
-        }
+        if (isAdminCreating) {
+            if(role == 1){
+        vs.adminMenu();
+    }
+      else if(role == 2){ 
+         vs.movieMenu();
+      }
+
+    }
     }
     
     }

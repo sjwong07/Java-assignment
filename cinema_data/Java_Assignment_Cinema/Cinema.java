@@ -115,7 +115,7 @@ public class Cinema {
                         scan.nextLine();
 
                         if (choice == 1) {
-                            acc.handleRegister(); 
+                            acc.handleRegister(false);//only member
                             System.out.println("Do you want to continue to login?:(Y/N)");
                             String answer = scan.nextLine();
                             if (answer.equalsIgnoreCase("y")){
