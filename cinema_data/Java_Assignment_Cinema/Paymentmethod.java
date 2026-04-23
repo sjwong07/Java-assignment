@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 class Paymentmethod extends Payment {
     Scanner scan = new Scanner(System.in);
+    DataManager dm = new DataManager();
+    private User currentUser;
     static ArrayList<String> bankUsers = new ArrayList<>();
     static ArrayList<String> bankPasswords = new ArrayList<>();
     private String username;
@@ -23,6 +25,8 @@ class Paymentmethod extends Payment {
         this.phoneNumber = phoneNumber;
         this.pin = pin;
     }
+
+    
 public boolean backMainPage() {
     while (true) {
         System.out.print("Do you want to go back to main page? (Y/N): ");
@@ -40,7 +44,6 @@ public boolean backMainPage() {
         }
     }
 }
-
 
     public void displayPaymentOptions() {
         System.out.println("\n--------- PAYMENT METHODS ---------");
@@ -218,6 +221,7 @@ public boolean backMainPage() {
             System.out.println("Invalid input.");
             scan.nextLine();
         }
+        dm.saveData();
         return amount;
     }
 
@@ -247,6 +251,7 @@ public boolean backMainPage() {
             System.out.println("Invalid input.");
             scan.nextLine();
         }
+        dm.saveData();
         return amount;
     }
 
@@ -276,6 +281,7 @@ public boolean backMainPage() {
             System.out.println("Invalid input.");
             scan.nextLine();
         }
+        dm.saveData();
         return amount;
     }
 } 

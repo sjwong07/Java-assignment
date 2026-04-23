@@ -83,15 +83,15 @@ class ticketsales {
                         switch (paymentChoice) {
                             case 1:
                                 payment.handleEwalletPayment(totalPrice, balance, amount);
-                                pm.backMainPage();
+                                
                                 break;
                             case 2:
                                 payment.handleOnlineBanking(totalPrice, balance, amount);
-                                pm.backMainPage();
+                                
                                 break;
                             case 3:
                                 payment.handleCreditDebitCard(totalPrice, balance, amount);
-                                pm.backMainPage();
+                                
                                 break;
                             default:
                                 System.out.println("Invalid payment option!");

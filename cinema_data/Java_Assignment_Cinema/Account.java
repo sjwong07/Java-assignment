@@ -52,18 +52,22 @@ class Account extends User {
 
         for (User u : users) {
 
-        if(u.getRole() == 1){
+        if(roleSelection == 1){
            rolename = "Admin";
         }
+
         else if(u.getRole() == 2){
-            rolename = "Admin";
+            rolename = "Staff";
         }
+
         else if(u.getRole() == 3){
             rolename = "Member";
         }
+
         if (u.getUsername().equals(uname) && u.getPassword().equals(pass)) {
                 System.out.println("Welcome, " + uname + " [" + "Role: " + rolename + "]");
-                 vs.setCurrentUser(u);
+        }
+        vs.setCurrentUser(u);
 
         if(roleSelection == 1){
           vs.adminMenu();
@@ -74,14 +78,12 @@ class Account extends User {
     
         return true;
             }
-        }
+        
        
         System.out.println("Error: Invalid login credentials.");
         
         return false;
     }
-
- 
 
     public void handleRegister(boolean isAdminCreating) {  
     int role;
@@ -99,7 +101,7 @@ class Account extends User {
     boolean exists;
     
     do {
-        System.out.println("\n--- REGISTER NEW ACCOUNT ---");
+        System.out.println("\n--- REGISTER NEW ACCOUNT(Member) ---");
         System.out.print("Enter New Username: ");
         uname = scan.nextLine();
         exists = false;
