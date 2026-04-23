@@ -9,7 +9,7 @@ class ViewSchedule {
         private ArrayList<Movie> movies = new ArrayList<>();
         private ArrayList<Showtime> showtimes = new ArrayList<>();
         private ArrayList<User> users = new ArrayList<>();
-        private User currentUser = null;  // Store current user object, not String
+        private User currentUser = null;  // Store current user object
         private Account acc;
   
     public ViewSchedule(Account acc) {
@@ -33,10 +33,16 @@ class ViewSchedule {
         String t = time.toUpperCase();
         return t.endsWith("AM") || t.endsWith("PM");
     }
+    
+
+    public void displayLogoutMessage() {
+    if (this.currentUser == null) {
+        System.out.println("You need to login first before logging out.");
+    } 
+}
 
 
     public void movieMenu() { 
-        
     while (true) {
         System.out.println("\n--- MOVIE MANAGEMENT ---");
 

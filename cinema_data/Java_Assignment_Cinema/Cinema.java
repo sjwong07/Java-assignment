@@ -86,8 +86,8 @@ public class Cinema {
         
         boolean running = true; 
         
-        while (running) { // Main program loop
-            System.out.println("------------------------------");
+        while (running) { 
+        System.out.println("------------------------------");
         System.out.println("   █████╗  ██████╗ ██╗   ██╗");
         System.out.println("  ██╔══██╗██╔════╝ ██║   ██║");
         System.out.println("  ███████║██║  ███╗██║   ██║");
@@ -130,7 +130,7 @@ public class Cinema {
                             if (acc.handleLogin()) { 
                                 ans = false;
                                 System.out.println("Login Successful!");
-                                 vs.setCurrentUser(acc);
+                                
                             }
                             
                         } else if (choice == 3) {
@@ -290,6 +290,8 @@ displayItem(c.concessionItem, membership);
                     running = false; // Exit the main loop
                     break;
                 case 6:
+                   
+               
                     vs.Logout();
                     break;
                 default:
