@@ -18,12 +18,29 @@ class Paymentmethod extends Payment {
     public Paymentmethod(double balance, double amount, 
         String username, String password,int phoneNumber,int pin) {
         super(balance, amount);
-        
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.pin = pin;
     }
+public boolean backMainPage() {
+    while (true) {
+        System.out.print("Do you want to go back to main page? (Y/N): ");
+        String ans = scan.nextLine().trim();
+
+        if (ans.equalsIgnoreCase("y")) {
+            return true;   // go back to main page
+        } 
+        else if (ans.equalsIgnoreCase("n")) {
+            System.out.println("See you again, bye!");
+            System.exit(0); // exit program
+        } 
+        else {
+            System.out.println("Invalid input. Please enter Y or N.");
+        }
+    }
+}
+
 
     public void displayPaymentOptions() {
         System.out.println("\n--------- PAYMENT METHODS ---------");
@@ -89,6 +106,7 @@ class Paymentmethod extends Payment {
 
             System.out.println("Verifying with " + bankName + "...");
             System.out.println("Status: Online Banking Payment Successful!");
+
         } else {
             System.out.println("This bank account already exists!");
         }

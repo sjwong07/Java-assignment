@@ -81,6 +81,7 @@ public class Cinema {
         DataManager dm = new DataManager();
         Account acc = new Account();
         ViewSchedule vs = new ViewSchedule(acc);
+        ticketsales ts = new ticketsales();
         Scanner scan = new Scanner(System.in);
         
         boolean running = true; 
@@ -147,12 +148,12 @@ public class Cinema {
 
                 case 2:
                     // Call the ticket sales system
-                    runTicketSalesSystem(scan);
+                    ts.ticket();
+
                     break;
 
                 case 3:
-                     System.out.println("Welcome to Snack Bar Operation.");
-                   
+                System.out.println("Welcome to Snack Bar Operation.");
                 int membership = 0;
                 String popcornType = "";
                 String drinkType = "";
@@ -167,7 +168,6 @@ public class Cinema {
                 double amount = 0.0;
                 int phoneNumber = 0;
                 int pin = 0;
-                
                 int bankName = 0;
                 String password = "";
                 String username = "";

@@ -15,9 +15,7 @@ class User implements Serializable {
             throw new IllegalArgumentException("User fields cannot be null");
         }
         
-        if (role != 1 && role != 2) {
-        throw new IllegalArgumentException("Invalid role");
-        }
+       
         
         this.username = username;
         this.password = password;

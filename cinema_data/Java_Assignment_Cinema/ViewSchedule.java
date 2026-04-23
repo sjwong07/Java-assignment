@@ -3,16 +3,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 class ViewSchedule {
-    Scanner scan = new Scanner(System.in);
-    DataManager dm = new DataManager();
-    // Declare these as class-level variables
-    private ArrayList<Movie> movies = new ArrayList<>();
-    private ArrayList<Showtime> showtimes = new ArrayList<>();
-    private ArrayList<User> users = new ArrayList<>();
-    private User currentUser = null;  // Store current user object, not String
-    private Account acc;
+        Scanner scan = new Scanner(System.in);
+        DataManager dm = new DataManager();
+        // Declare these as class-level variables
+        private ArrayList<Movie> movies = new ArrayList<>();
+        private ArrayList<Showtime> showtimes = new ArrayList<>();
+        private ArrayList<User> users = new ArrayList<>();
+        private User currentUser = null;  // Store current user object, not String
+        private Account acc;
   
-       public ViewSchedule(Account acc) {
+    public ViewSchedule(Account acc) {
        
         this.acc = acc;
         this.users = dm.getUsers();
@@ -40,9 +40,9 @@ class ViewSchedule {
     while (true) {
         System.out.println("\n--- MOVIE MANAGEMENT ---");
 
-        boolean isAdmin = (currentUser != null && currentUser.getRole() == 1);
+        boolean isStaffOrAdmin = (currentUser != null && (currentUser.getRole() == 1 || currentUser.getRole() == 2));
         
-        if (isAdmin) {
+        if (isStaffOrAdmin) {
             System.out.println("1. Add Movie");
             System.out.println("2. Add Showtime");
             System.out.println("3. View Schedule");
@@ -56,7 +56,7 @@ class ViewSchedule {
         String choice = scan.nextLine();
 
         
-        if (choice.equals("1") && isAdmin) {
+        if (choice.equals("1") && isStaffOrAdmin) {
             System.out.print("Movie Title: "); 
             String t = scan.nextLine();
             
@@ -82,7 +82,7 @@ class ViewSchedule {
             }
         }
         
-        else if (choice.equals("2") && isAdmin) {
+        else if (choice.equals("2") && isStaffOrAdmin) {
             if (movies.isEmpty()) { 
                 System.out.println("Add movies first."); 
                 continue; 
@@ -119,7 +119,7 @@ class ViewSchedule {
             }
         }
        
-        else if ((isAdmin && choice.equals("3")) || (!isAdmin && choice.equals("1"))) {
+        else if ((isStaffOrAdmin && choice.equals("3")) || (!isStaffOrAdmin && choice.equals("1"))) {
             if (showtimes.isEmpty()) {
                 System.out.println("No showtimes available.");
             } else {
@@ -130,7 +130,7 @@ class ViewSchedule {
             }
         }
         
-        else if ((isAdmin && choice.equals("4")) || (!isAdmin && choice.equals("2"))) {
+        else if ((isStaffOrAdmin && choice.equals("4")) || (!isStaffOrAdmin && choice.equals("2"))) {
             break;
         }
         else {
@@ -156,7 +156,9 @@ class ViewSchedule {
                 String ans = scan.nextLine();
                 if("y".equalsIgnoreCase(ans)){
                 return true;  //  logout success
-                }else{
+                }
+                else{
+                    //exit system
                     System.out.println("See you again,bye!");
                     System.exit(0);
                 }
@@ -193,11 +195,14 @@ class ViewSchedule {
              else if (choice == 4) {
                 break;
             }
-            else if(choice == 5){
-                Logout(); 
-             
+            else if (choice == 5) {
+                boolean back = Logout();
+
+                if (back) {
+                    break; // EXIT adminMenu
+                }
             }
-        }
+                }
     }
 
     public void adminUserList() {

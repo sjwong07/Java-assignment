@@ -2,11 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ticketsales {
-
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+class ticketsales {
+    Scanner scan = new Scanner(System.in);
+    Paymentmethod pm = new Paymentmethod(0.0,0.0,
+    "","",0,0);
         
+    public void ticket(){ 
         // Create customer
         System.out.print("Enter your name: ");
         String name = scan.nextLine();
@@ -82,12 +83,15 @@ public class ticketsales {
                         switch (paymentChoice) {
                             case 1:
                                 payment.handleEwalletPayment(totalPrice, balance, amount);
+                                pm.backMainPage();
                                 break;
                             case 2:
                                 payment.handleOnlineBanking(totalPrice, balance, amount);
+                                pm.backMainPage();
                                 break;
                             case 3:
                                 payment.handleCreditDebitCard(totalPrice, balance, amount);
+                                pm.backMainPage();
                                 break;
                             default:
                                 System.out.println("Invalid payment option!");
