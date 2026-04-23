@@ -41,6 +41,7 @@ class Account extends User {
     
     
     public boolean handleLogin() {
+        String rolename = "";
         System.out.println("What is your role?: " + "\n1.Admin" + "\n2.Staff" +"\n3.Member");
         int roleSelection = scan.nextInt();
         scan.nextLine();
@@ -50,8 +51,18 @@ class Account extends User {
         String pass = scan.nextLine();
 
         for (User u : users) {
-            if (u.getUsername().equals(uname) && u.getPassword().equals(pass)) {
-                System.out.println("Welcome, " + uname + " [" + u.getRole() + "]");
+
+        if(u.getRole() == 1){
+           rolename = "Admin";
+        }
+        else if(u.getRole() == 2){
+            rolename = "Admin";
+        }
+        else if(u.getRole() == 3){
+            rolename = "Member";
+        }
+        if (u.getUsername().equals(uname) && u.getPassword().equals(pass)) {
+                System.out.println("Welcome, " + uname + " [" + "Role: " + rolename + "]");
                  vs.setCurrentUser(u);
 
         if(roleSelection == 1){
