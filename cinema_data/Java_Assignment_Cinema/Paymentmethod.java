@@ -106,7 +106,7 @@ public boolean backMainPage() {
 
             System.out.println("Verifying with " + bankName + "...");
             System.out.println("Status: Online Banking Payment Successful!");
-
+            backMainPage();
         } else {
             System.out.println("This bank account already exists!");
         }
@@ -136,6 +136,7 @@ public boolean backMainPage() {
                 System.out.println("Card Type: " + (cardNumber.startsWith("4") ? "VISA" : 
                                                       cardNumber.startsWith("5") ? "MasterCard" : "Unknown"));
                 System.out.println("Status: Card Payment Successful!");
+                backMainPage();
                
             } else {
                 System.out.println("Invalid card details!");

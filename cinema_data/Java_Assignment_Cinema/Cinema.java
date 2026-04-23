@@ -282,34 +282,7 @@ displayItem(c.concessionItem, membership);
                          break;
                     
                 case 4:
-                    // Check Movie Schedule logic
-                    boolean scheduleLoop = true;
-                    while (scheduleLoop) {
-                        System.out.println("\n---------------------------------");
-                        System.out.println("     Movie Schedule System      ");
-                        System.out.println("---------------------------------");
-                        System.out.println("1. View Today's Schedule\n2. View Weekly Schedule\n3. Back to Main Menu");
-                        System.out.print("Selection: ");
-                        int scheduleChoice = scan.nextInt();
-                        scan.nextLine();
-                        
-                        switch (scheduleChoice) {
-                            case 1:
-                                System.out.println("Displaying today's schedule...");
-                                // Add today's schedule logic here
-                                break;
-                            case 2:
-                                System.out.println("Displaying weekly schedule...");
-                                // Add weekly schedule logic here
-                                break;
-                            case 3:
-                                scheduleLoop = false;
-                                System.out.println("Returning to main menu...");
-                                break;
-                            default:
-                                System.out.println("Invalid input. Please try again.");
-                        }
-                    }
+                     vs.movieMenu();
                     break;
 
                 case 5:
