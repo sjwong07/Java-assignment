@@ -290,7 +290,7 @@ displayItem(c.concessionItem, membership);
                     running = false; // Exit the main loop
                     break;
                 case 6:
-                   
+                   vs.displayLogoutMessage();
                
                     vs.Logout();
                     break;
