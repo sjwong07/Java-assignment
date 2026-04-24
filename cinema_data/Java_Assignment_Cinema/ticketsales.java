@@ -103,14 +103,15 @@ class ticketsales {
 
                 case 4:
                     System.out.println("Exiting system...");
+
                     break;
 
                 default:
                     System.out.println("Invalid choice.Please select 1-4!");
             }
 
-        } while (choice != 5);
+        } while (choice != 4);
 
-        scan.close();
+       
     }
 }

@@ -40,50 +40,59 @@ class Account extends User {
 
     
     
-    public boolean handleLogin() {
-        String rolename = "";
-        System.out.println("What is your role?: " + "\n1.Admin" + "\n2.Staff" +"\n3.Member");
-        int roleSelection = scan.nextInt();
-        scan.nextLine();
-        System.out.print("\nUsername: ");
-        String uname = scan.nextLine();
-        System.out.print("Password: ");
-        String pass = scan.nextLine();
+   public boolean handleLogin() {
+    String rolename = "";
+    System.out.println("What is your role?: " + "\n1.Admin" + "\n2.Staff" + "\n3.Member");
+    int roleSelection = scan.nextInt();
+    scan.nextLine();
+    System.out.print("\nUsername: ");
+    String uname = scan.nextLine();
+    System.out.print("Password: ");
+    String pass = scan.nextLine();
 
-        for (User u : users) {
-
-        if(roleSelection == 1){
-           rolename = "Admin";
-        }
-
-        else if(u.getRole() == 2){
-            rolename = "Staff";
-        }
-
-        else if(u.getRole() == 3){
-            rolename = "Member";
-        }
-
+    // Find the user first
+    User foundUser = null;
+    for (User u : users) {
         if (u.getUsername().equals(uname) && u.getPassword().equals(pass)) {
-                System.out.println("Welcome, " + uname + " [" + "Role: " + rolename + "]");
+            foundUser = u;
+            break;
         }
-        vs.setCurrentUser(u);
+    }
 
-        if(roleSelection == 1){
-          vs.adminMenu();
-    }
-        else if(roleSelection == 2){
-            vs.movieMenu();
-    }
-    
-        return true;
-            }
-        
-       
-        System.out.println("Error: Invalid login credentials.");
-        
+    // Check if user exists
+    if (foundUser == null) {
+        System.out.println("Error: Invalid username or password.");
         return false;
     }
+
+    // Check if role matches
+    if (foundUser.getRole() != roleSelection) {
+        System.out.println("Error: Role does not match for this account.");
+        return false;
+    }
+    if (foundUser.getRole() == 1) {
+        rolename = "Admin";
+    } else if (foundUser.getRole() == 2) {
+        rolename = "Staff";
+    } else if (foundUser.getRole() == 3) {
+        rolename = "Member";
+    }
+
+    System.out.println("Welcome, " + uname + " [" + "Role: " + rolename + "]");
+    vs.setCurrentUser(foundUser);
+
+    // Show appropriate menu based on role
+    if (roleSelection == 1) {
+        vs.adminMenu();
+    } else if (roleSelection == 2) {
+        vs.movieMenu();
+    } else if (roleSelection == 3) {
+        // You need to add a member menu here
+        System.out.println("Member menu would be displayed here");
+    }
+
+    return true;
+}
 
     public void handleRegister(boolean isAdminCreating) {  
     int role;
@@ -101,7 +110,7 @@ class Account extends User {
     boolean exists;
     
     do {
-        System.out.println("\n--- REGISTER NEW ACCOUNT(Member) ---");
+        System.out.println("\n--- REGISTER NEW ACCOUNT ---");
         System.out.print("Enter New Username: ");
         uname = scan.nextLine();
         exists = false;
@@ -150,6 +159,7 @@ class Account extends User {
         vs.adminMenu();
     }
       else if(role == 2){ 
+        System.out.println("Staff Menu");
          vs.movieMenu();
       }
 

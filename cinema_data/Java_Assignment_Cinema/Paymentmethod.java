@@ -162,7 +162,8 @@ public boolean backMainPage() {
         this.balance -= totalPrice;
         System.out.println("Touch 'n Go Payment Processing.....");
         System.out.println("Touch 'n Go Payment Successed!");
-        System.out.println("Your current balance is: " + totalTopUpAmount + "-" + totalPrice + "=" + this.balance);
+        System.out.println("Your current balance is: " +"totalTopUpAmount: " + totalTopUpAmount +
+         "-" +"totalPrice: " +totalPrice + "=" + "RemainderBalance: " + this.balance);
     }
 
     public void paymentBoost(double totalPrice, double balance, double amount) {
@@ -177,7 +178,8 @@ public boolean backMainPage() {
         this.balance -= totalPrice;
         System.out.println("Boost Payment Processing.....");
         System.out.println("Boost Payment Successed!");
-        System.out.println("Your current balance is: " + totalTopUpAmount + "-" + totalPrice + "=" + this.balance);
+        System.out.println("Your current balance is: " +"totalTopUpAmount: " + totalTopUpAmount +
+         "-" +"totalPrice: " +totalPrice + "=" + "RemainderBalance: " + this.balance);
     }
 
     public void paymentShopeePay(double totalPrice, double balance, double amount) {
@@ -192,9 +194,10 @@ public boolean backMainPage() {
         this.balance -= totalPrice;
         System.out.println("ShopeePay Payment Processing.....");
         System.out.println("ShopeePay Payment Successed!");
-        System.out.println("Your current balance is: " + totalTopUpAmount + "-" + totalPrice + "=" + this.balance);
-    }
-
+        System.out.println("Your current balance is: " +"totalTopUpAmount: " + totalTopUpAmount +
+         "-" +"totalPrice: " +totalPrice + "=" + "RemainderBalance: " + this.balance);
+        }
+        
     public double topupTng(double balance, int paymentChoice) {
         double amount = 0.0;
         try {

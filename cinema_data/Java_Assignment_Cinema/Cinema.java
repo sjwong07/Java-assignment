@@ -80,7 +80,7 @@ public class Cinema {
     public static void main(String[] args) {
         DataManager dm = new DataManager();
         Account acc = new Account();
-        ViewSchedule vs = new ViewSchedule(acc);
+        ViewSchedule vs = acc.vs;
         ticketsales ts = new ticketsales();
         Scanner scan = new Scanner(System.in);
         
@@ -282,7 +282,10 @@ displayItem(c.concessionItem, membership);
                          break;
                     
                 case 4:
-                     vs.movieMenu();
+       
+        vs.movieMenu(); // Admin/Staff only
+        
+    
                     break;
 
                 case 5:

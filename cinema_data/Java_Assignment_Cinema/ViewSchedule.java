@@ -9,7 +9,7 @@ class ViewSchedule {
         private ArrayList<Movie> movies = new ArrayList<>();
         private ArrayList<Showtime> showtimes = new ArrayList<>();
         private ArrayList<User> users = new ArrayList<>();
-        private static User currentUser = null;  // Store current user object
+        private  User currentUser = null;  // Store current user object
         private Account acc;
   
     public ViewSchedule(Account acc) {
