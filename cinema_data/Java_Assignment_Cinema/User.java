@@ -20,6 +20,7 @@ class User implements Serializable {
             throw new IllegalArgumentException("User fields cannot be null");
         }
 
+
     }
 
     public String getUsername() {
@@ -33,6 +34,8 @@ class User implements Serializable {
     public int getRole() {
         return role;
     }
+
+    
 
     
 
