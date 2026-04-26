@@ -10,6 +10,7 @@ class DataManager {
      public void saveData() {
         try 
         (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))){
+            
             oos.writeObject(users);
             oos.writeObject(movies);
             oos.writeObject(showtimes);

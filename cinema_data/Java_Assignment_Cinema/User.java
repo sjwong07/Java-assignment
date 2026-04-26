@@ -3,23 +3,23 @@ import java.io.Serializable;
 class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     private String username;
     private String password;
     private int role;
-
+    
+    
+    // Constructor
     public User(String username, String password, int role) {
-
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        
+    
         
         if (username == null || password == null) {
             throw new IllegalArgumentException("User fields cannot be null");
         }
-        
-       
-        
-        this.username = username;
-        this.password = password;
-        this.role = role;
+
     }
 
     public String getUsername() {
@@ -33,6 +33,8 @@ class User implements Serializable {
     public int getRole() {
         return role;
     }
+
+    
 
     
     @Override

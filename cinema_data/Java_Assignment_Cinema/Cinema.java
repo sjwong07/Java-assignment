@@ -172,17 +172,21 @@ public class Cinema {
                 String password = "";
                 String username = "";
 
-    try{
+        
+    while(ans){
         System.out.println("Whay type Member you are: ");
         System.out.println("1.VIP Member");
         System.out.println("2.Standard Member");
         membership = scan.nextInt();
         scan.nextLine();
-       
-    }catch(Exception e){
-        System.out.println("Please input integer.");
+       if(membership > 3){
+        System.out.println("Invalid input,try again.");
+        ans = true;
+       }else{
+        ans = false;
+       }
     }
-    
+
     Cinema c = new Cinema();
 displayItem(c.concessionItem, membership);
     System.out.println("Which concession item do you want to purchase?: ");
@@ -342,38 +346,8 @@ displayItem(c.concessionItem, membership);
             }
         }
     }
-    public static void paying(int paymentChoice, Paymentmethod paymentmethod, OnlineBanking ob, double totalPrice,
-            double balance, double amount, String username, String accPassword,int type){
+   
+            
         
-        boolean paymentLoop = true;
-        while (paymentLoop) {
-            switch(paymentChoice){
-                case 1:
-                    if(type == 1){
-                         paymentmethod.paymentTng(totalPrice, balance, amount, paymentChoice);  
-                    if(paymentmethod.getBalance() < 0){
-                        System.out.println("Insufficient balance! Please top up.");
-                        paymentmethod.topupTng(balance, paymentChoice);
-                    }
-                    }else if(type ==2){
-                        
-                    }
-                   
-                     else {
-                        paymentLoop = false;
-                    }
-                    break;
-                case 2:
-                    ob.paymentOnlineBanking(balance, totalPrice, paymentChoice, amount);
-                    paymentLoop = false;
-                    break;
-                case 3:
-                     System.out.println("Invalid payment choice. Please try again.");
-                default:
-                    System.out.println("Invalid payment choice. Please try again.");
-                    paymentLoop = false;
-                    break;
-            }
-        }
-    }
+    
 }

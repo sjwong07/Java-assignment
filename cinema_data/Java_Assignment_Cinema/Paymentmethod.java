@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 class Paymentmethod extends Payment {
     Scanner scan = new Scanner(System.in);
+    DataManager dm = new DataManager();
+    private User currentUser;
     static ArrayList<String> bankUsers = new ArrayList<>();
     static ArrayList<String> bankPasswords = new ArrayList<>();
     private String username;
@@ -23,8 +25,11 @@ class Paymentmethod extends Payment {
         this.phoneNumber = phoneNumber;
         this.pin = pin;
     }
+
+    
 public boolean backMainPage() {
-    while (true) {
+    boolean loop = true;
+    while (loop) {
         System.out.print("Do you want to go back to main page? (Y/N): ");
         String ans = scan.nextLine().trim();
 
@@ -39,8 +44,8 @@ public boolean backMainPage() {
             System.out.println("Invalid input. Please enter Y or N.");
         }
     }
+    return false;
 }
-
 
     public void displayPaymentOptions() {
         System.out.println("\n--------- PAYMENT METHODS ---------");
@@ -64,87 +69,33 @@ public boolean backMainPage() {
             case "a":
                 System.out.println("\n--- Touch 'n Go Payment ---");
                 paymentTng(totalPrice, balance, amount, 1);
+                backMainPage();
                 break;
             case "b":
                 System.out.println("\n--- Boost Payment ---");
                 paymentBoost(totalPrice, balance, amount);
+                backMainPage();
                 break;
             case "c":
                 System.out.println("\n--- ShopeePay Payment ---");
                 paymentShopeePay(totalPrice, balance, amount);
+                backMainPage();
                 break;
             default:
                 System.out.println("Invalid e-wallet selection!");
         }
     }
 
-    public void handleOnlineBanking(double totalPrice, double balance, double amount) {
-        
-        System.out.println("\n----- ONLINE BANKING OPTIONS -----");
-        System.out.println("Available banks: Maybank, CIMB, Public Bank, RHB, Hong Leong");
-        System.out.print("Enter your bank name: ");
-        bankName = scan.nextLine();
-
-        try {
-            System.out.print("Please enter your username for "+ bankName +": ");
-            username = scan.nextLine();
-            System.out.print("Please enter your Password: ");
-            password = scan.nextLine();
-
-          boolean exist = false;
-
-            for (int i = 0; i < bankUsers.size(); i++) {
-                if (bankUsers.get(i).equals(username) && 
-                    bankPasswords.get(i).equals(password)) {
-                    exist = true;
-                    break;
-                }
-            }
-                if (!exist) {
-            bankUsers.add(username);
-            bankPasswords.add(password);
-
-            System.out.println("Verifying with " + bankName + "...");
-            System.out.println("Status: Online Banking Payment Successful!");
-            backMainPage();
-        } else {
-            System.out.println("This bank account already exists!");
-        }
-
-        } catch (Exception e) {
-            System.out.println("Invalid input for online banking.");
-            scan.nextLine();
-        }
-    }
-
     public void handleCreditDebitCard(double totalPrice, double balance, double amount) {
         System.out.println("\n----- CREDIT/DEBIT CARD PAYMENT -----");
+        paymentCreditOrDebitCard(totalPrice,balance,amount);
         
-        try {
-            System.out.print("Enter Card Number (16 digits): ");
-            cardNumber = scan.nextLine();
-            
-            System.out.print("Enter Expiry Date (MM/YY): ");
-            expiryDate = scan.nextLine();
-            
-            System.out.print("Enter CVV (3 digits): ");
-            cvv = scan.nextInt();
-            scan.nextLine();
+    }
 
-            if (cardNumber.length() == 16 && expiryDate.matches("\\d{2}/\\d{2}") && String.valueOf(cvv).length() == 3) {
-                System.out.println("Processing card payment...");
-                System.out.println("Card Type: " + (cardNumber.startsWith("4") ? "VISA" : 
-                                                      cardNumber.startsWith("5") ? "MasterCard" : "Unknown"));
-                System.out.println("Status: Card Payment Successful!");
-                backMainPage();
-               
-            } else {
-                System.out.println("Invalid card details!");
-            }
-        } catch (Exception e) {
-            System.out.println("Invalid card information.");
-            scan.nextLine();
-        }
+    public void handleOnlineBanking(double totalPrice, double balance, double amount) {
+        System.out.println("\n----- CREDIT/DEBIT CARD PAYMENT -----");
+        paymentOnlineBanking(totalPrice,balance,amount);
+        
     }
 
     public void paymentTng(double totalPrice, double balance, double amount, int paymentChoice) {
@@ -218,6 +169,7 @@ public boolean backMainPage() {
             System.out.println("Invalid input.");
             scan.nextLine();
         }
+        dm.saveData();
         return amount;
     }
 
@@ -247,6 +199,7 @@ public boolean backMainPage() {
             System.out.println("Invalid input.");
             scan.nextLine();
         }
+        dm.saveData();
         return amount;
     }
 
@@ -276,6 +229,117 @@ public boolean backMainPage() {
             System.out.println("Invalid input.");
             scan.nextLine();
         }
+        dm.saveData();
         return amount;
     }
-} 
+
+    public double topupOnlineBanking(double balance){
+        double amount = 0.0;
+        System.out.println("Available banks: Maybank, CIMB, Public Bank, RHB, Hong Leong");
+        System.out.print("Enter your bank name: ");
+        bankName = scan.nextLine();
+
+        try {
+            System.out.println("How many amount do you want to topup?: ");
+            amount = scan.nextDouble();
+            scan.nextLine();
+            System.out.print("Please enter your username for "+ bankName +": ");
+            username = scan.nextLine();
+            System.out.print("Please enter your Password: ");
+            password = scan.nextLine();
+
+          boolean exist = false;
+
+            for (int i = 0; i < bankUsers.size(); i++) {
+                if (bankUsers.get(i).equals(username) && 
+                    bankPasswords.get(i).equals(password)) {
+                    exist = true;
+                    break;
+                }
+            }
+                if (!exist) {
+            bankUsers.add(username);
+            bankPasswords.add(password);
+            
+
+            System.out.println("Verifying with " + bankName + "...");
+            System.out.println("Status: Online Banking Payment Successful!");
+            this.balance += amount;
+        } else {
+            System.out.println("This username already exists!");
+        }
+
+        } catch (Exception e) {
+            System.out.println("Invalid input for online banking.");
+            scan.nextLine();
+        }
+        return amount;
+    }
+
+     public double topupCreditOrDebitCard(double balance){
+         double amount = 0.0;
+        try {
+            System.out.println("Here is topup for Credit/Debit Card.");
+            System.out.println("How many amount do you want to topup?: ");
+            amount = scan.nextDouble();
+            scan.nextLine();
+
+            System.out.print("Enter Card Number (16 digits): ");
+            cardNumber = scan.nextLine();
+            
+            System.out.print("Enter Expiry Date (MM/YY): ");
+            expiryDate = scan.nextLine();
+            
+            System.out.print("Enter CVV (3 digits): ");
+            cvv = scan.nextInt();
+            scan.nextLine();
+
+            if (cardNumber.length() == 16 && expiryDate.matches("\\d{2}/\\d{2}") && String.valueOf(cvv).length() == 3) {
+                System.out.println("Processing card payment...");
+                System.out.println("Card Type: " + (cardNumber.startsWith("4") ? "VISA" : 
+                                                      cardNumber.startsWith("5") ? "MasterCard" : "Unknown"));
+                System.out.println("Status: Card Payment Successful!");
+                this.balance+=amount;
+                
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid input.");
+            scan.nextLine();
+        }
+        dm.saveData();
+        return amount;
+    
+}
+
+    public void paymentCreditOrDebitCard(double totalPrice, double balance, double amount) {
+        double totalTopUpAmount = 0.0;
+
+        while (this.balance < totalPrice) {
+            System.out.println("Your balance is insufficient! Please top up");
+            double topUpAmount = topupCreditOrDebitCard(balance);
+            totalTopUpAmount += topUpAmount;
+        }
+
+        this.balance -= totalPrice;
+        System.out.println("Credit/Debit Card Payment Processing.....");
+        System.out.println("Credit/Debit Card Payment Successed!");
+        System.out.println("Your current balance is: " + totalTopUpAmount + "\t-" + totalPrice + "\t=" + this.balance);
+    }
+
+    public void paymentOnlineBanking(double totalPrice, double balance, double amount) {
+        double totalTopUpAmount = 0.0;
+
+        while (this.balance < totalPrice) {
+            System.out.println("Your balance is insufficient! Please top up");
+            double topUpAmount = topupOnlineBanking(balance);
+            totalTopUpAmount += topUpAmount;
+        }
+
+        this.balance -= totalPrice;
+        System.out.println("Online Banking Payment Processing.....");
+        System.out.println("Online Banking Payment Successed!");
+        System.out.println("Your current balance is: " + totalTopUpAmount + " - " + totalPrice + " = " + this.balance);
+    }
+}
+
+    
